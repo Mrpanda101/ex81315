@@ -184,6 +184,9 @@
             "./.env"
         ]
     },
+    "symfony/form": {
+        "version": "v5.0.8"
+    },
     "symfony/framework-bundle": {
         "version": "4.4",
         "recipe": {
@@ -222,6 +225,9 @@
     "symfony/inflector": {
         "version": "v5.0.8"
     },
+    "symfony/intl": {
+        "version": "v5.0.8"
+    },
     "symfony/mailer": {
         "version": "4.3",
         "recipe": {
@@ -246,8 +252,14 @@
     "symfony/mime": {
         "version": "v5.0.8"
     },
+    "symfony/options-resolver": {
+        "version": "v5.0.8"
+    },
     "symfony/orm-pack": {
         "version": "v1.0.8"
+    },
+    "symfony/polyfill-intl-icu": {
+        "version": "v1.17.0"
     },
     "symfony/polyfill-intl-idn": {
         "version": "v1.17.0"
