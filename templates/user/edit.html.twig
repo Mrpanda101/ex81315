@@ -10,12 +10,17 @@
     {% if app.user %}
 
         {% if app.request.attributes.get('_route') is same as('profile_edit') %}
+            <a href="https://www.termsandconditionsgenerator.com/live.php?token=buUtIJMJOVZstrXAIiLAOWzooUZ6McAE" target="_blank">Our Terms of Agreement</a>
+            <br>
             <a href="{{ path('profile_index') }}">back to list</a>
 
         {% else %}
+            <a href="https://www.termsandconditionsgenerator.com/live.php?token=buUtIJMJOVZstrXAIiLAOWzooUZ6McAE" target="_blank">Our Terms of Agreement</a>
+            <br>
             <a href="{{ path('user_index') }}">back to list</a>
         {% endif %}
     {% endif %}
 
     {{ include('user/_delete_form.html.twig') }}
+
 {% endblock %}
