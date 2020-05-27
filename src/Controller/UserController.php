@@ -19,9 +19,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class UserController extends AbstractController
 {
+
     /**
      * @Route("/", name="user_index", methods={"GET"})
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_ADMIN",statusCode=404, message="No access for User! You should't be here! >:(-I-<")
      */
     public function index(UserRepository $userRepository): Response
     {
@@ -98,6 +99,7 @@ class UserController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('user_index');
+
         }
 
         return $this->render('user/edit.html.twig', [
