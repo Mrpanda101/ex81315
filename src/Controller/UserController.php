@@ -36,17 +36,16 @@ class UserController extends AbstractController
      */
     public function new(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
+
+
         $user = new User();
+
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            /**
-             * @Assert\Email(
-             *     message = "The email '{{ value }}' is not a valid email."
-             * )
-             */
+
             $user->setPassword(
                 $passwordEncoder->encodePassword(
                     $user,

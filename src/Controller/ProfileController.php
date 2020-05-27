@@ -40,9 +40,9 @@ class ProfileController extends AbstractController
      * @Route("/", name="profile_index")
      */
     public function index(Request $request): Response
-    {
+    {   /*Als niet ingelogt, mag niet komen*/
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-
+        /*Als de role admin ga naar user index*/
         if(in_array("ROLE_ADMIN", $this->getUser()->getRoles()))
         {
             return $this->redirectToRoute('user_index');

@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class RegistrationController extends AbstractController
 {
@@ -18,6 +19,11 @@ class RegistrationController extends AbstractController
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
+        /**
+         * @Assert\Email(
+         *     message = "The email '{{ value }}' is not a valid email."
+         * )
+         */
         if ($this->getUser()) {
             return $this->redirectToRoute('homepage');
         }
