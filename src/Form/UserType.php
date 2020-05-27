@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
-    {
+    {/*De builder check naar de variabele die hij binnenkrijgt*/
         $builder
             ->add('username', TextType::class, [
                 'label' => 'Email',
