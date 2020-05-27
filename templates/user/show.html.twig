@@ -12,8 +12,8 @@
                 <td>{{ user.id }}</td>
             </tr>
             <tr>
-                <th>Email</th>
-                <td>{{ user.email }}</td>
+                <th>Username</th>
+                <td>{{ user.username }}</td>
             </tr>
             <tr>
                 <th>Roles</th>
@@ -22,6 +22,30 @@
             <tr>
                 <th>Password</th>
                 <td>{{ user.password }}</td>
+            </tr>
+            <tr>
+                <th>Naam</th>
+                <td>{{ user.naam }}</td>
+            </tr>
+            <tr>
+                <th>Telefoon_nummer</th>
+                <td>{{ user.telefoonNummer }}</td>
+            </tr>
+            <tr>
+                <th>Geboorte_datum</th>
+                <td>{{ user.geboorteDatum ? user.geboorteDatum|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Geslacht</th>
+                <td>{{ user.geslacht }}</td>
+            </tr>
+            <tr>
+                <th>Adres</th>
+                <td>{{ user.adres }}</td>
+            </tr>
+            <tr>
+                <th>Woonplaats</th>
+                <td>{{ user.woonplaats }}</td>
             </tr>
         </tbody>
     </table>

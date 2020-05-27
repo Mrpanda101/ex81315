@@ -4,12 +4,13 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
+ * @UniqueEntity("username",
+ * message="email is al in gebruik.")
  */
 class User implements UserInterface
 {
@@ -23,7 +24,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
-    private $email;
+    private $username;
 
     /**
      * @ORM\Column(type="json")
@@ -44,6 +45,21 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
+    private $telefoon_nummer;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $geboorte_datum;
+
+    /**
+     * @ORM\Column(type="string", length=1)
+     */
+    private $geslacht;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
     private $adres;
 
     /**
@@ -51,36 +67,9 @@ class User implements UserInterface
      */
     private $woonplaats;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $telefoonnummer;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $geboortedatum;
-
-    /**
-     * @ORM\Column(type="string", length=55)
-     */
-    private $geslacht;
-
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
-
-        return $this;
     }
 
     /**
@@ -90,7 +79,14 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return (string) $this->username;
+    }
+
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
+
+        return $this;
     }
 
     /**
@@ -156,6 +152,45 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getTelefoonNummer(): ?string
+    {
+        return $this->telefoon_nummer;
+    }
+
+    public function setTelefoonNummer(string $telefoon_nummer): self
+    {
+        $this->telefoon_nummer = $telefoon_nummer;
+
+        return $this;
+    }
+
+    public function getGeboorteDatum(): ?string
+    {
+        return $this->geboorte_datum;
+    }
+
+    public function setGeboorteDatum(string $geboorte_datum): self
+    {
+        $this->geboorte_datum = $geboorte_datum;
+
+        return $this;
+    }
+
+    public function getGeslacht(): ?string
+    {
+        if ($this->geslacht === 'm') {
+            return 'Man';
+        }
+        return 'Vrouw';
+    }
+
+    public function setGeslacht(string $geslacht): self
+    {
+        $this->geslacht = $geslacht;
+
+        return $this;
+    }
+
     public function getAdres(): ?string
     {
         return $this->adres;
@@ -176,42 +211,6 @@ class User implements UserInterface
     public function setWoonplaats(string $woonplaats): self
     {
         $this->woonplaats = $woonplaats;
-
-        return $this;
-    }
-
-    public function getTelefoonnummer(): ?int
-    {
-        return $this->telefoonnummer;
-    }
-
-    public function setTelefoonnummer(int $telefoonnummer): self
-    {
-        $this->telefoonnummer = $telefoonnummer;
-
-        return $this;
-    }
-
-    public function getGeboortedatum(): ?string
-    {
-        return $this->geboortedatum;
-    }
-
-    public function setGeboortedatum(string $geboortedatum): self
-    {
-        $this->geboortedatum = $geboortedatum;
-
-        return $this;
-    }
-
-    public function getGeslacht(): ?string
-    {
-        return $this->geslacht;
-    }
-
-    public function setGeslacht(string $geslacht): self
-    {
-        $this->geslacht = $geslacht;
 
         return $this;
     }
