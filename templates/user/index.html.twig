@@ -6,12 +6,12 @@
     <h1>User index</h1>
 
     <table class="table">
-        <thead>
+        <thead style="background-color:ghostwhite;">
             <tr>
                 <th>Id</th>
                 <th>Username</th>
                 <th>Roles</th>
-                <th>Password</th>
+
                 <th>Naam</th>
                 <th>Telefoon_nummer</th>
                 <th>Geboorte_datum</th>
@@ -21,13 +21,13 @@
                 <th>actions</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody style="background-color:azure;">
         {% for user in users %}
             <tr>
                 <td>{{ user.id }}</td>
                 <td>{{ user.username }}</td>
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-                <td>{{ user.password }}</td>
+
                 <td>{{ user.naam }}</td>
                 <td>{{ user.telefoonNummer }}</td>
                 <td>{{ user.geboorteDatum ? user.geboorteDatum|date('d-m-Y') : '' }}</td>

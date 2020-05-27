@@ -5,7 +5,7 @@
     <title>{% block title %}Welcome!{% endblock %}</title>
     {% block stylesheets %}{% endblock %}
 </head>
-<body style="background-color:darkcyan;">
+<body style="background-image:url(https://images5.alphacoders.com/351/thumb-1920-351817.jpg);">
 {% if app.user %}
     <div class="mb-3">
         You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
