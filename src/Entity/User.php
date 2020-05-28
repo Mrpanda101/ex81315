@@ -6,6 +6,7 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -39,31 +40,57 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     *
      */
     private $naam;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     * @Assert\Regex(pattern="/^06[0-9]*$/", message="number_only")
+     * @Assert\Length(
+     *      min = 10,
+     *      max = 10,
+     *      minMessage = "Your number must be at least {{ limit }} characters long",
+     *      maxMessage = "Your number cannot be longer than {{ limit }} characters"
+     * )
      */
     private $telefoon_nummer;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $geboorte_datum;
 
     /**
      * @ORM\Column(type="string", length=1)
+     * @Assert\NotBlank
      */
     private $geslacht;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Your adres must be at least {{ limit }} characters long",
+     *      maxMessage = "Your adres cannot be longer than {{ limit }} characters"
+     *     )
      */
     private $adres;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Your woonplaats must be at least {{ limit }} characters long",
+     *      maxMessage = "Your woonplaats cannot be longer than {{ limit }} characters"
+     * )
      */
     private $woonplaats;
 
@@ -77,12 +104,12 @@ class User implements UserInterface
      *
      * @see UserInterface
      */
-    public function getUsername(): string
+    public function getUsername(): ?string
     {
         return (string) $this->username;
     }
 
-    public function setUsername(string $username): self
+    public function setUsername(?string $username): self
     {
         $this->username = $username;
 
@@ -145,7 +172,7 @@ class User implements UserInterface
         return $this->naam;
     }
 
-    public function setNaam(string $naam): self
+    public function setNaam(?string $naam): self
     {
         $this->naam = $naam;
 
@@ -157,7 +184,7 @@ class User implements UserInterface
         return $this->telefoon_nummer;
     }
 
-    public function setTelefoonNummer(string $telefoon_nummer): self
+    public function setTelefoonNummer(?string $telefoon_nummer): self
     {
         $this->telefoon_nummer = $telefoon_nummer;
 
@@ -169,7 +196,7 @@ class User implements UserInterface
         return $this->geboorte_datum;
     }
 
-    public function setGeboorteDatum(string $geboorte_datum): self
+    public function setGeboorteDatum(?string $geboorte_datum): self
     {
         $this->geboorte_datum = $geboorte_datum;
 
@@ -184,7 +211,7 @@ class User implements UserInterface
         return 'Vrouw';
     }
 
-    public function setGeslacht(string $geslacht): self
+    public function setGeslacht(?string $geslacht): self
     {
         $this->geslacht = $geslacht;
 
@@ -196,7 +223,7 @@ class User implements UserInterface
         return $this->adres;
     }
 
-    public function setAdres(string $adres): self
+    public function setAdres(?string $adres): self
     {
         $this->adres = $adres;
 
@@ -208,7 +235,7 @@ class User implements UserInterface
         return $this->woonplaats;
     }
 
-    public function setWoonplaats(string $woonplaats): self
+    public function setWoonplaats(?string $woonplaats): self
     {
         $this->woonplaats = $woonplaats;
 

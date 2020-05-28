@@ -13,6 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @Route("/user")
@@ -35,7 +36,7 @@ class UserController extends AbstractController
      * @Route("/new", name="user_new", methods={"GET","POST"})
      * @IsGranted("ROLE_ADMIN")
      */
-    public function new(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
+    public function new(Request $request, UserPasswordEncoderInterface $passwordEncoder, ValidatorInterface $validator): Response
     {
 
 
@@ -46,6 +47,25 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $emailConstraint = new Assert\Email();
+            // all constraint "options" can be set this way
+            $emailConstraint->message = 'Invalid email address';
+
+            // use the validator to validate the value
+            $errors = $validator->validate(
+                $user->getUsername(),
+                $emailConstraint
+            );
+
+            if (count($errors) > 0) {
+                $errorMessage = $errors[0]->getMessage();
+
+                return $this->render('registration/register.html.twig', [
+                    'registrationForm' => $form->createView(),
+                    'emailerror' => $errorMessage
+                ]);
+
+            }
 
             $user->setPassword(
                 $passwordEncoder->encodePassword(
@@ -82,12 +102,32 @@ class UserController extends AbstractController
      * @Route("/{id}/edit", name="user_edit", methods={"GET","POST"})
      * @IsGranted("ROLE_ADMIN")
      */
-    public function edit_admin(Request $request, User $user, UserPasswordEncoderInterface $passwordEncoder): Response
+    public function edit_admin(Request $request, User $user, UserPasswordEncoderInterface $passwordEncoder, ValidatorInterface $validator): Response
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $emailConstraint = new Assert\Email();
+            // all constraint "options" can be set this way
+            $emailConstraint->message = 'Invalid email address';
+
+            // use the validator to validate the value
+            $errors = $validator->validate(
+                $user->getUsername(),
+                $emailConstraint
+            );
+
+            if (count($errors) > 0) {
+                $errorMessage = $errors[0]->getMessage();
+
+                return $this->render('registration/register.html.twig', [
+                    'registrationForm' => $form->createView(),
+                    'emailerror' => $errorMessage
+                ]);
+
+            }
 
             $user->setPassword(
                 $passwordEncoder->encodePassword(

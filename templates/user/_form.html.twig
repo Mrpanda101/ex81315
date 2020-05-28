@@ -1,4 +1,7 @@
 {{ form_start(form) }}
+    {% if emailerror is defined %}
+        {{ emailerror }}
+    {% endif %}
     {{ form_widget(form) }}
     <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

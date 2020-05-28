@@ -9,6 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @Route("/profile")
@@ -18,7 +20,7 @@ class ProfileController extends AbstractController
     /**
      * @Route("/edit", name="profile_edit")
      */
-    public function edit(Request $request): Response
+    public function edit(Request $request, ValidatorInterface $validator): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
@@ -26,6 +28,27 @@ class ProfileController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $emailConstraint = new Assert\Email();
+            // all constraint "options" can be set this way
+            $emailConstraint->message = 'Invalid email address';
+
+            // use the validator to validate the value
+            $errors = $validator->validate(
+                $this->getUser()->getUsername(),
+                $emailConstraint
+            );
+
+            if (count($errors) > 0) {
+                $errorMessage = $errors[0]->getMessage();
+
+                return $this->render('registration/register.html.twig', [
+                    'registrationForm' => $form->createView(),
+                    'emailerror' => $errorMessage
+                ]);
+
+            }
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('profile_index');

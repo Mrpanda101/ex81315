@@ -11,19 +11,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class RegistrationController extends AbstractController
 {
     /**
      * @Route("/register", name="app_register")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, ValidatorInterface $validator): Response
     {
-        /**
-         * @Assert\Email(
-         *     message = "The email '{{ value }}' is not a valid email."
-         * )
-         */
+
         if ($this->getUser()) {
             return $this->redirectToRoute('homepage');
         }
@@ -33,6 +30,26 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $emailConstraint = new Assert\Email();
+            // all constraint "options" can be set this way
+            $emailConstraint->message = 'Invalid email address';
+
+            // use the validator to validate the value
+            $errors = $validator->validate(
+                $user->getUsername(),
+                $emailConstraint
+            );
+
+            if (count($errors) > 0) {
+                $errorMessage = $errors[0]->getMessage();
+
+                return $this->render('registration/register.html.twig', [
+                    'registrationForm' => $form->createView(),
+                    'emailerror' => $errorMessage
+                ]);
+
+            }
 
             // encode the plain password
             $user->setPassword(
